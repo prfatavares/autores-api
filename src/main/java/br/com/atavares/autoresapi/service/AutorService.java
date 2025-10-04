@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,7 +16,10 @@ public class AutorService {
     @Autowired
     AutorRepository autorRepository;
 
-    public Autor cadastrarAutor(Autor autor){
+    public Autor cadastrarAutor(Autor autor, String header){
+        autor.setDataCadastro(LocalDateTime.now());
+        autor.setDataUltimaAtualizacao(LocalDateTime.now());
+        autor.setUsuarioUltimaAtualizacao(header);
         return autorRepository.save(autor);
     }
 
@@ -31,8 +35,10 @@ public class AutorService {
         return autorRepository.findAll();
     }
 
-    public void atualizarAutorPorId(UUID id, @RequestBody Autor autor){
+    public void atualizarAutorPorId(UUID id, Autor autor, String header){
         autor.setId(id);
+        autor.setDataUltimaAtualizacao(LocalDateTime.now());
+        autor.setUsuarioUltimaAtualizacao(header);
         autorRepository.save(autor);
     }
 }

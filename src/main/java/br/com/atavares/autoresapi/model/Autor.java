@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_autor")
 @Data
+//@EntityListeners(AuditingEntityListener.class)
 public class Autor {
 
     @Id
@@ -25,14 +27,17 @@ public class Autor {
     @Column(nullable = false, name = "nacionalidade", length = 50)
     private String nacionalidade;
 
+    //@CreatedDate
+    @Column(name = "data_cadastro")
+    private LocalDateTime dataCadastro;
+
+    //@LastModifiedDate
+    @Column(name = "data_ultima_atualizacao")
+    private LocalDateTime dataUltimaAtualizacao;
+
+    @Column(name = "usuario_ultima_atualizacao", length = 100)
+    private String usuarioUltimaAtualizacao;
+
     public Autor() {
-
-    }
-
-    public Autor(UUID id, String nome, LocalDate dataNascimento, String nacionalidade) {
-        this.id = id;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.nacionalidade = nacionalidade;
     }
 }
