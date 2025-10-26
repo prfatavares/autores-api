@@ -2,6 +2,9 @@ package br.com.atavares.autoresapi.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_autor")
 @Data
-//@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class Autor {
 
     @Id
@@ -27,11 +30,11 @@ public class Autor {
     @Column(nullable = false, name = "nacionalidade", length = 50)
     private String nacionalidade;
 
-    //@CreatedDate
+    @CreatedDate
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
-    //@LastModifiedDate
+    @LastModifiedDate
     @Column(name = "data_ultima_atualizacao")
     private LocalDateTime dataUltimaAtualizacao;
 

@@ -13,4 +13,10 @@ public record AutorDTO(String nome, LocalDate dataNascimento, String nacionalida
         autor.setNacionalidade(this.nacionalidade);
         return autor;
     }
+
+    public void mapearAutor(Autor autor){
+        autor.setNome(this.nome);
+        autor.setDataNascimento(this.dataNascimento);
+        autor.setNacionalidade(this.nacionalidade);
+    }
 }

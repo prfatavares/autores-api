@@ -1,6 +1,7 @@
 package br.com.atavares.autoresapi.controller;
 
 import br.com.atavares.autoresapi.dto.AutorDTO;
+import br.com.atavares.autoresapi.dto.AutorRespostaDTO;
 import br.com.atavares.autoresapi.model.Autor;
 import br.com.atavares.autoresapi.service.AutorService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,23 +31,33 @@ public class AutorController {
     }
 
     @GetMapping("{id}")
-    public Autor visualizarAutorPorId(@PathVariable("id") UUID id){
-        return autorService.visualizarAutorPorId(id);
+    public ResponseEntity<AutorRespostaDTO> visualizarAutorPorId(@PathVariable("id") UUID id){
+        Autor autor = autorService.visualizarAutorPorId(id);
+        AutorRespostaDTO autorRespostaDTO = new AutorRespostaDTO(autor.getId(), autor.getNome(), autor.getDataNascimento(), autor.getNacionalidade());
+        return ResponseEntity.ok(autorRespostaDTO);
     }
 
     @DeleteMapping("{id}")
-    public void excluirAutorPorId(@PathVariable("id") UUID id){
+    public ResponseEntity<Void> excluirAutorPorId(@PathVariable("id") UUID id){
         autorService.excluirAutorPorId(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public List<Autor> pesquisarAutores(){
-        return autorService.pesquisarAutores();
+    public ResponseEntity<List<AutorRespostaDTO>> pesquisarAutores(){
+        List<Autor> listaAutor = autorService.pesquisarAutores();
+        List<AutorRespostaDTO> listaAutorRespostaDTO = new ArrayList<>();
+        for (Autor autor : listaAutor) {
+            listaAutorRespostaDTO.add(new AutorRespostaDTO(autor.getId(), autor.getNome(), autor.getDataNascimento(), autor.getNacionalidade()));
+        }
+        return ResponseEntity.ok(listaAutorRespostaDTO);
     }
 
     @PutMapping("{id}")
-    public void atualizarAutorPorId(@PathVariable("id") UUID id, @RequestBody AutorDTO autorDTO, HttpServletRequest request){
-        Autor autor = autorDTO.mapearAutor();
-        autorService.atualizarAutorPorId(id, autor, request.getHeader("User-Agent"));
+    public ResponseEntity<Void> atualizarAutorPorId(@PathVariable("id") UUID id, @RequestBody AutorDTO autorDTO, HttpServletRequest request){
+        Autor autor = autorService.visualizarAutorPorId(id);
+        autorDTO.mapearAutor(autor);
+        autorService.atualizarAutor(autor, request.getHeader("User-Agent"));
+        return ResponseEntity.noContent().build();
     }
 }
