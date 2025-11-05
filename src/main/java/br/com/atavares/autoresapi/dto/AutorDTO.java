@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
+//Opção: utilizar no projeto MapStruct
+
 public record AutorDTO(@NotBlank(message = "Nome obrigatório") @Size(max = 100, message = "Tamanho excedido") String nome,
                        @NotNull @Past LocalDate dataNascimento,
                        @NotBlank String nacionalidade) {
