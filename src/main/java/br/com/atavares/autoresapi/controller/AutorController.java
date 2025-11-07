@@ -25,7 +25,7 @@ public class AutorController {
 
     @PostMapping
     public ResponseEntity<Void> cadastrarAutor(@RequestBody @Valid AutorDTO autorDTO, HttpServletRequest request){
-        Autor autor = autorDTO.mapearAutor();
+        Autor autor = autorDTO.toEntity();
         autorService.cadastrarAutor(autor, request.getHeader("User-Agent"));
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autor.getId()).toUri();
         return ResponseEntity.created(location).build();
@@ -57,7 +57,7 @@ public class AutorController {
     @PutMapping("{id}")
     public ResponseEntity<Void> atualizarAutorPorId(@PathVariable("id") UUID id, @RequestBody @Valid AutorDTO autorDTO, HttpServletRequest request){
         Autor autor = autorService.visualizarAutorPorId(id);
-        autorDTO.mapearAutor(autor);
+        autorDTO.toEntity(autor);
         autorService.atualizarAutor(autor, request.getHeader("User-Agent"));
         return ResponseEntity.noContent().build();
     }

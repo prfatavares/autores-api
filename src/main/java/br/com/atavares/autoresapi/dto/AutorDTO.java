@@ -14,7 +14,7 @@ public record AutorDTO(@NotBlank(message = "Nome obrigatório") @Size(max = 100,
                        @NotNull @Past LocalDate dataNascimento,
                        @NotBlank String nacionalidade) {
 
-    public Autor mapearAutor(){
+    public Autor toEntity(){
         Autor autor = new Autor();
         autor.setNome(this.nome);
         autor.setDataNascimento(this.dataNascimento);
@@ -22,7 +22,7 @@ public record AutorDTO(@NotBlank(message = "Nome obrigatório") @Size(max = 100,
         return autor;
     }
 
-    public void mapearAutor(Autor autor){
+    public void toEntity(Autor autor){
         autor.setNome(this.nome);
         autor.setDataNascimento(this.dataNascimento);
         autor.setNacionalidade(this.nacionalidade);
