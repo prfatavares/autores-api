@@ -3,6 +3,8 @@ package br.com.atavares.autoresapi.service;
 import br.com.atavares.autoresapi.model.Autor;
 import br.com.atavares.autoresapi.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +16,10 @@ public class AutorService {
     @Autowired
     AutorRepository autorRepository;
 
-    public void cadastrarAutor(Autor autor, String header){
-        autor.setUsuarioUltimaAtualizacao(header);
+    public void cadastrarAutor(Autor autor, String header, Authentication authentication){
+        UserDetails usuarioLogado = (UserDetails) authentication.getPrincipal();
+        //autor.setUsuarioUltimaAtualizacao(header);
+        autor.setUsuarioUltimaAtualizacao(usuarioLogado.getUsername());
         autorRepository.save(autor);
     }
 

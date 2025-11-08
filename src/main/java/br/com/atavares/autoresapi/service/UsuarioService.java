@@ -1,15 +1,12 @@
 package br.com.atavares.autoresapi.service;
 
-import br.com.atavares.autoresapi.model.Autor;
 import br.com.atavares.autoresapi.model.Usuario;
-import br.com.atavares.autoresapi.repository.AutorRepository;
 import br.com.atavares.autoresapi.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,5 +29,9 @@ public class UsuarioService {
 
     public List<Usuario> pesquisarUsuarios(){
         return usuarioRepository.findAll();
+    }
+
+    public Usuario pesquisarPorLogin(String login){
+        return usuarioRepository.findByLogin(login);
     }
 }

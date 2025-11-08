@@ -1,7 +1,5 @@
 package br.com.atavares.autoresapi.dto;
 
-import br.com.atavares.autoresapi.model.Autor;
-
 import java.time.LocalDate;
 import java.util.UUID;
 

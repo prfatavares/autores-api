@@ -2,7 +2,6 @@ package br.com.atavares.autoresapi.controller;
 
 import br.com.atavares.autoresapi.dto.UsuarioDTO;
 import br.com.atavares.autoresapi.model.Usuario;
-import br.com.atavares.autoresapi.repository.UsuarioRepository;
 import br.com.atavares.autoresapi.service.AutorService;
 import br.com.atavares.autoresapi.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -21,6 +20,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
     @Autowired
     private AutorService autorService;
 
@@ -33,7 +33,7 @@ public class UsuarioController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Usuario> visualizarUsuarioPorId(@PathVariable UUID id){
+    public ResponseEntity<Usuario> visualizarUsuarioPorId(@PathVariable("id") UUID id){
         return ResponseEntity.ok(usuarioService.visualizarUsuarioPorId(id));
     }
 

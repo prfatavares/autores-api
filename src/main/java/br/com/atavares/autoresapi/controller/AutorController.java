@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,9 +26,10 @@ public class AutorController {
     AutorService autorService;
 
     @PostMapping
-    public ResponseEntity<Void> cadastrarAutor(@RequestBody @Valid AutorDTO autorDTO, HttpServletRequest request){
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> cadastrarAutor(@RequestBody @Valid AutorDTO autorDTO, HttpServletRequest request, Authentication authentication){
         Autor autor = autorDTO.toEntity();
-        autorService.cadastrarAutor(autor, request.getHeader("User-Agent"));
+        autorService.cadastrarAutor(autor, request.getHeader("User-Agent"), authentication);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autor.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
