@@ -4,9 +4,16 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/autores
     username: postgres
-    password: 
+    password:
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 241725876146-ll067s7dcddq0skt98jt8uedbs2bod34.apps.googleusercontent.com
+            client-secret:

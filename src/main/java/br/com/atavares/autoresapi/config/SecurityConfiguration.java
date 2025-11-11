@@ -23,7 +23,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                //.formLogin(Customizer.withDefaults()) // Alternativa: spring-boot-starter-thymeleaf
+                .formLogin(Customizer.withDefaults()) // Alternativa: spring-boot-starter-thymeleaf
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizeRequests -> {
                     //authorizeRequests.requestMatchers("/autores/**").hasAnyRole("USER", "ADMIN");
@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                     //authorizeRequests.anyRequest().denyAll();
 
                 })
+                .oauth2Login(Customizer.withDefaults()) // Autenticação federada com o Google - starter oauth2-client
                 .build();
     }
 
