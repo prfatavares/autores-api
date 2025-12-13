@@ -4,6 +4,10 @@ import br.com.atavares.autoresapi.dto.AutorDTO;
 import br.com.atavares.autoresapi.dto.AutorRespostaDTO;
 import br.com.atavares.autoresapi.model.Autor;
 import br.com.atavares.autoresapi.service.AutorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("autores")
+@Tag(name = "Autores") //Customização do swagger
 public class AutorController {
 
     @Autowired
@@ -27,6 +32,11 @@ public class AutorController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Cadastrar", description = "Cadastrar novo autor") //Customização do swagger
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cadastrado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Erro de cadastro")
+    })
     public ResponseEntity<Void> cadastrarAutor(@RequestBody @Valid AutorDTO autorDTO, HttpServletRequest request, Authentication authentication){
         Autor autor = autorDTO.toEntity();
         autorService.cadastrarAutor(autor, request.getHeader("User-Agent"), authentication);
