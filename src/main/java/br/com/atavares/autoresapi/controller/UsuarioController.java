@@ -5,6 +5,7 @@ import br.com.atavares.autoresapi.model.Usuario;
 import br.com.atavares.autoresapi.service.AutorService;
 import br.com.atavares.autoresapi.service.UsuarioService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("usuarios")
+@Slf4j
 public class UsuarioController {
 
     @Autowired
@@ -29,6 +31,7 @@ public class UsuarioController {
         Usuario usuario = usuarioDTO.toEntity();
         usuarioService.cadastrarUsuario(usuario);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
+        log.info("Cadastrado com o id {}", usuario.getId());
         return ResponseEntity.created(location).build();
     }
 

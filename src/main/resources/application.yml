@@ -1,6 +1,9 @@
 spring:
   application:
     name: autores-api
+  output:
+    ansi:
+      enabled: always
   datasource:
     url: jdbc:postgresql://localhost:5432/autores
     username: postgres
@@ -19,8 +22,31 @@ spring:
             client-secret: ${GOOGLE_CLIENT_SECRET}
 
 #springdoc-openapi - https://springdoc.org/
-#Swagger API page default - http://server:port/context-path/swagger-ui.html:
+#Swagger API page default - http://server:port/context-path/swagger-ui.html
 springdoc:
   swagger-ui:
     path: /docs
   override-with-generic-response: false
+
+#root, sql ou web
+#trace, debug, info, warn, error, fatal, off
+logging:
+  pattern:
+    dateformat: dd-MM-yyyy'T'HH:mm:ss.SSSXXX
+  file:
+    name: autores-api.log
+  level:
+    root: info
+    br:
+      com:
+        atavares:
+          autoresapi: info
+
+#Observabilidade com Spring Boot Starter Actuator
+management:
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: '*'
