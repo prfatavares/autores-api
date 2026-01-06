@@ -1,0 +1,13 @@
+#root, sql ou web
+#trace, debug, info, warn, error, fatal, off
+logging:
+  pattern:
+    dateformat: dd-MM-yyyy'T'HH:mm:ss.SSSXXX
+  file:
+    name: autores-api.log
+  level:
+    root: info
+    br:
+      com:
+        atavares:
+          autoresapi: info

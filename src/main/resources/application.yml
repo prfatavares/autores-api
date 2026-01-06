@@ -5,8 +5,8 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/autores
-    username: postgres
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/autores}
+    username: ${DATASOURCE_USERNAME:postgres}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
@@ -20,6 +20,10 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
+  #Perfil definido nas linhas abaixo apontando para arquivo separado ou para configuração no final deste arquivo após '---'
+  #Opção: variável de ambiente SPRING_PROFILES_ACTIVE
+#  profiles:
+#    active: prd
 
 #springdoc-openapi - https://springdoc.org/
 #Swagger API page default - http://server:port/context-path/swagger-ui.html
@@ -36,11 +40,11 @@ logging:
   file:
     name: autores-api.log
   level:
-    root: info
+    root: debug
     br:
       com:
         atavares:
-          autoresapi: info
+          autoresapi: debug
 
 #Observabilidade com Spring Boot Starter Actuator
 management:
@@ -50,3 +54,23 @@ management:
     web:
       exposure:
         include: '*'
+
+---
+
+#Configurações de produção
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  pattern:
+    dateformat: dd-MM-yyyy'T'HH:mm:ss.SSSXXX
+  file:
+    name: autores-api.log
+  level:
+    root: warn
+    br:
+      com:
+        atavares:
+          autoresapi: warn
