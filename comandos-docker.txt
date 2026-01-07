@@ -1,0 +1,22 @@
+#Criar rede docker
+docker network create <docker_network>
+
+#Container Postgres
+docker run --name autoresdb -e POSTGRES_USER=<username> -e POSTGRES_PASSWORD=<password> -e POSTGRES_DB=autores -p 5432:5432 -d --network <docker_network> postgres:17.4
+
+#Construir imagem da API a partir do Dockerfile
+docker build --tag prfatavares/autoresapi .
+
+#Container da API
+docker run --name autoresapi-prd -e DATASOURCE_URL=<url_jdbc> -e DATASOURCE_USERNAME=<username> -e POSTGRES_PASSWORD=<password> -e GOOGLE_CLIENT_ID=<client-id> -e GOOGLE_CLIENT_SECRET=<secret-id> --network <docker_network> -d -p 8080:8080 -p 9090:9090 prfatavares/autoresapi
+
+#Push da imagem da API para o Docker Hub
+docker tag prfatavares/autoresapi prfatavares/autoresapi
+docker login docker.io
+docker push prfatavares/autoresapi
+
+#Consultar logs do container
+docker logs <container_name>
+
+#Acessar o container
+docker exec -it <container_name> /bin/bash
