@@ -1,0 +1,3 @@
+docker build --tag prfatavares/autoresapi .
+
+docker run --name autoresapi-prd -e DATASOURCE_URL=<url_jdbc> -e DATASOURCE_USERNAME=<username> -e POSTGRES_PASSWORD=<password> --network <rede_docker> -d -p 8080:8080 -p 9090:9090 prfatavares/autoresapi
