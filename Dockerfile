@@ -1,0 +1,27 @@
+# build
+FROM maven:4.0.0-rc-5-amazoncorretto-21-al2023 as build
+WORKDIR /build
+
+COPY . .
+
+RUN mvn clean package -DskipTests
+
+# run
+FROM amazoncorretto:21.0.5
+WORKDIR /app
+
+COPY --from=build ./build/target/*.jar ./autoresapi.jar
+
+EXPOSE 8080
+EXPOSE 9090
+
+ENV DATASOURCE_URL=''
+ENV DATASOURCE_USERNAME=''
+ENV POSTGRES_PASSWORD=''
+ENV GOOGLE_CLIENT_ID=''
+ENV GOOGLE_CLIENT_SECRET=''
+
+ENV SPRING_PROFILES_ACTIVE='prd'
+ENV TZ='America/Sao_Paulo'
+
+ENTRYPOINT java -jar autoresapi.jar
